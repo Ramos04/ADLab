@@ -1,0 +1,2 @@
+Function Deploy-DomainController {
+}

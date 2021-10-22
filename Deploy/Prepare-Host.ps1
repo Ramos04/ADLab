@@ -1,4 +1,4 @@
-Function Deploy-LABDomainController {
+Function Prepare-Host {
     <#
         .SYNOPSIS
         Preps the Windows Server for Domain Controller promotion
@@ -37,10 +37,10 @@ Function Deploy-LABDomainController {
         None. Only writes logging info to the console.
 
         .EXAMPLE
-        PS> Prepare-LABDomainController.ps1 -Create [-Hostname <string>] [-IPAddress <ipaddress>] [-Gateway <ipaddress>] [-DNSServerTwo <ipaddress>]
+        PS> Prepare-Host -Create [-Hostname <string>] [-IPAddress <ipaddress>] [-Gateway <ipaddress>] [-DNSServerTwo <ipaddress>]
 
         .EXAMPLE
-        PS> Prepare-LABDomainController.ps1 -Join -DomainController <ipaddress> [-Hostname <string>] [-IPAddress <ipaddress>] [-Gateway <ipaddress>] [-DNSServer <ipaddress>]
+        PS> Prepare-Host -Join -DomainController <ipaddress> [-Hostname <string>] [-IPAddress <ipaddress>] [-Gateway <ipaddress>] [-DNSServer <ipaddress>]
 
         .LINK
         Online version: https://github.com/Ramos04/ADLab
