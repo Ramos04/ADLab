@@ -57,14 +57,23 @@ Function Deploy-Workstation {
         [String]$Password
     )
 
-    # If secure flag, run Get-Credentials. Otherwise just create PSCredential object
+    # Get the Operating System time
+    $ProductType = (Get-CimInstance -ClassName Win32_OperatingSystem).ProductType
+
+    # Create a credential object
     if ($Secure){
-        $Credential = (Get-Credential -Credential "$Domain\$User")
+        $Credential = (Get-Credential -Credential "$Domain\$Username")
     } else{
+        $DomainUser = "$Domain\$Username"
         $SecurePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
-        $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "$Domain\$User", $SecurePassword
+        $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $DomainUser, $SecurePassword
     }
 
-    # Join the domain and reboot
-    Add-Computer -ComputerName "$env:COMPUTERNAME" -DomainName "$Domain" -Credential "$Credential" -Restart -Force
+    # If the host is a workstation, join the domain
+    if ($ProductType -eq 1){
+
+        # Join the domain and reboot
+        Write-Host "Attempting to join the domain, will reboot if successful.."
+        Add-Computer -ComputerName $env:COMPUTERNAME -DomainName $Domain -Credential $Credential -Restart -Force
+    }
 }
